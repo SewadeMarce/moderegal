@@ -1,11 +1,11 @@
-import {  CategoriesType, Products } from "@/types";
+import { CategoriesType, Products } from "@/types";
 import pool from "../db";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre-secret-super-securise-2026';
 
 
- type Params = {
+type Params = {
   category_id?: string;
   is_new?: boolean;
   is_promo?: boolean;
@@ -13,15 +13,15 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre-secret-super-securise-2026';
   limit?: number;
   offset?: number;
 };
-export async function getAllProducts({ category_id= 'all', is_new, is_promo, search, limit = 20, offset = 0 }: Params = {}) {
+export async function getAllProducts({ category_id = 'all', is_new, is_promo, search, limit = 20, offset = 0 }: Params = {}) {
   const conditions = [];
-  const params     = [];
-  let   idx        = 1;
+  const params = [];
+  let idx = 1;
 
   if (category_id !== 'all') { conditions.push(`p.category_id = $${idx++}`); params.push(category_id); }
-  if (is_new  !== undefined) { conditions.push(`p.is_new = $${idx++}`);  params.push(is_new); }
+  if (is_new !== undefined) { conditions.push(`p.is_new = $${idx++}`); params.push(is_new); }
   if (is_promo !== undefined) { conditions.push(`p.is_promo = $${idx++}`); params.push(is_promo); }
-  if (search)  { conditions.push(`p.name ILIKE $${idx++}`); params.push(`%${search}%`); }
+  if (search) { conditions.push(`p.name ILIKE $${idx++}`); params.push(`%${search}%`); }
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
@@ -39,7 +39,7 @@ export async function getAllProducts({ category_id= 'all', is_new, is_promo, sea
   return rows;
 }
 
-export async function getFeaturedProducts():Promise<Products> {
+export async function getFeaturedProducts(): Promise<Products> {
   try {
     const result = await pool.query(`
       SELECT p.*, c.name as category
@@ -54,6 +54,16 @@ export async function getFeaturedProducts():Promise<Products> {
     console.error('Error fetching featured products:', error);
     return [];
   }
+}
+export async function getProductBySlug(slug: string) {
+  const { rows } = await pool.query(
+    `SELECT p.*, c.name AS category
+     FROM products p
+     LEFT JOIN categories c ON c.id = p.category_id
+     WHERE p.slug = $1`,
+    [slug]
+  );
+  return rows[0] ?? null;
 }
 
 export async function getProductById(id: string) {
@@ -75,7 +85,7 @@ export async function getProductById(id: string) {
     throw error;
   }
 }
-export async function getAllCategories():Promise<CategoriesType> {
+export async function getAllCategories(): Promise<CategoriesType> {
   const { rows } = await pool.query(
     `SELECT * FROM categories ORDER BY name ASC`
   );
@@ -93,8 +103,8 @@ export async function getCategoryById(id: string) {
 
 
 export async function getCartItems(userId: string) {
-    try {
-        const result = await pool.query(`
+  try {
+    const result = await pool.query(`
       SELECT 
         ci.id,
         ci.quantity,
@@ -110,13 +120,24 @@ export async function getCartItems(userId: string) {
       ORDER BY ci.created_at DESC
     `, [userId]);
 
-        return result.rows;
-    } catch (error) {
-        console.error('Error fetching cart:', error);
-        return [];
-    }
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    return [];
+  }
 };
 
+ export  async function findCartItemsByUser(user_id:string) {
+    const { rows } = await pool.query(
+      `SELECT ci.*, p.name, p.price, p.discount_price, p.discount_percentage, p.stock
+       FROM cart_items ci
+       JOIN products p ON p.id = ci.product_id
+       WHERE ci.user_id = $1
+       ORDER BY ci.created_at ASC`,
+      [user_id]
+    );
+    return rows;
+  }
 
 export async function getCurrentUser(): Promise<{ id: string; full_name: string; email: string; phone: string; created_at: Date } | null> {
   const cookieStore = await cookies();
@@ -126,7 +147,7 @@ export async function getCurrentUser(): Promise<{ id: string; full_name: string;
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
-    
+
     const result = await pool.query(
       'SELECT id, full_name, email, phone, created_at FROM users WHERE id = $1',
       [decoded.userId]

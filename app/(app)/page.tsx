@@ -1,8 +1,7 @@
 import Categories from '@/components/(app)/Categories';
-// import FeaturedProducts from '@/components/(app)/FeaturedProducts';
-// import ProductHorizontalList from '@/components/list';
+import FeaturedProducts from '@/components/(app)/FeaturedProducts';
+import ProductHorizontalList from '@/components/(app)/ProductSection';
 import { CategorySkeleton } from '@/components/ui/(app)/categories-skeleton';
-// import { products } from '@/lib';
 import { getAllCategories, getFeaturedProducts } from '@/lib/data';
 import { ArrowRight, Truck, ShieldCheck, Award } from 'lucide-react';
 import Link from 'next/link';
@@ -12,12 +11,12 @@ export default async function Page() {
   const categories = await getAllCategories();
 
 
- // const featuredProducts = await getFeaturedProducts()
+  const featuredProducts = await getFeaturedProducts()
 
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-regal-700">
+      <section id="accueil" className="relative h-screen flex items-center justify-center overflow-hidden bg-regal-700">
         {/* Image de fond */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -97,7 +96,7 @@ export default async function Page() {
       </section>
 
       {/* PRODUITS EN VEDETTE */}
-      {/* <section className="py-20 bg-gray-50">
+      <section id="promotions" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
@@ -118,21 +117,25 @@ export default async function Page() {
             <FeaturedProducts featuredProducts={featuredProducts} />
           </Suspense>
         </div>
-      </section> */}
-
-      {/* <ProductHorizontalList
-        title="Nouvelles Arrivées"
-        subtitle="Découvrez nos dernières pièces"
-        products={products}
-      /> */}
+      </section>
+     
+      <section id="hommes" className="py-20 bg-gray-50">
+        <ProductHorizontalList
+          title="Nouvelles Arrivées"
+          subtitle="Découvrez nos dernières pièces"
+          products={featuredProducts}
+        />
+      </section>
 
       {/* Meilleures Ventes */}
-      {/* <ProductHorizontalList
-        title="Meilleures Ventes"
-        subtitle="Les produits les plus populaires"
-        products={products}
-      /> */}
+      <section id="femmes" className="py-20 bg-gray-50">
 
+        <ProductHorizontalList
+          title="Meilleures Ventes"
+          subtitle="Les produits les plus populaires"
+          products={featuredProducts}
+        />
+      </section>
     </>
   );
 };

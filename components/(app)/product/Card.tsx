@@ -13,8 +13,9 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const router = useRouter()
+console.log('imae url :',product.image_url);
 
- 
+
   return (
     <>
       <Link
@@ -89,7 +90,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <span className="text-xs font-medium text-gray-500 uppercase">FCFA</span>
           </div>
 
-          <AddBtn productId={product.id} product={{name:product.name,price:product.price,imageUrl:product.image_url}} />
+          <AddBtn productId={product.id}
+            product={{
+              name: product.name,
+              price: product.price,
+              image_url: product.image_url,
+              size: product.size[0],
+              color: product.color[0],
+            }} />
         </div>
       </Link>
     </>
