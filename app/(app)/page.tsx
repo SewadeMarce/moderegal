@@ -1,17 +1,18 @@
 import Categories from '@/components/(app)/Categories';
-import FeaturedProducts from '@/components/(app)/FeaturedProducts';
 import ProductHorizontalList from '@/components/(app)/ProductSection';
 import { CategorySkeleton } from '@/components/ui/(app)/categories-skeleton';
-import { getAllCategories, getFeaturedProducts } from '@/lib/data';
+import { getAllCategories, getCurrentUser, getFeaturedProducts, getUserFavoritesIds } from '@/lib/data';
 import { ArrowRight, Truck, ShieldCheck, Award } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
 export default async function Page() {
   const categories = await getAllCategories();
-
-
-  const featuredProducts = await getFeaturedProducts()
+  const featuredProducts = await getFeaturedProducts();
+  const user = await getCurrentUser()
+  const favoriteIds = user?.id
+    ? await getUserFavoritesIds(user.id)
+    : [];
 
   return (
     <>
@@ -97,44 +98,40 @@ export default async function Page() {
 
       {/* PRODUITS EN VEDETTE */}
       <section id="promotions" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div>
-              <span className="text-christi-500 font-medium tracking-widest">SÉLECTION EXCLUSIVE</span>
-              <h2 className="text-5xl font-bold text-regal-700 mt-2">Nos Coups de Cœur</h2>
-            </div>
+        <Suspense fallback={<ProductSkeleton />}>
 
-            <Link
-              href="/shop"
-              className="mt-6 md:mt-0 flex items-center gap-2 text-regal-600 hover:text-regal-700 font-medium group"
-            >
-              Voir toute la collection
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-
-          <Suspense fallback={<ProductSkeleton />}>
-            <FeaturedProducts featuredProducts={featuredProducts} />
-          </Suspense>
-        </div>
+          <ProductHorizontalList
+            title="SÉLECTION EXCLUSIVE"
+            subtitle="Nos Coups de Cœur"
+            products={featuredProducts}
+            favoriteIds={favoriteIds}
+          />
+        </Suspense>
       </section>
-     
+
       <section id="hommes" className="py-20 bg-gray-50">
-        <ProductHorizontalList
-          title="Nouvelles Arrivées"
-          subtitle="Découvrez nos dernières pièces"
-          products={featuredProducts}
-        />
+        <Suspense fallback={<ProductSkeleton />}>
+          <ProductHorizontalList
+            title="Nouvelles Arrivées"
+            subtitle="Découvrez nos dernières pièces"
+            products={featuredProducts}
+            favoriteIds={favoriteIds}
+          />
+        </Suspense>
       </section>
+
 
       {/* Meilleures Ventes */}
       <section id="femmes" className="py-20 bg-gray-50">
+        <Suspense fallback={<ProductSkeleton />}>
 
-        <ProductHorizontalList
-          title="Meilleures Ventes"
-          subtitle="Les produits les plus populaires"
-          products={featuredProducts}
-        />
+          <ProductHorizontalList
+            title="Meilleures Ventes"
+            subtitle="Les produits les plus populaires"
+            products={featuredProducts}
+            favoriteIds={favoriteIds}
+          />
+        </Suspense>
       </section>
     </>
   );

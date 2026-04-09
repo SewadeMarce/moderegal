@@ -1,12 +1,11 @@
 // app/checkout/page.tsx
 'use client';
-import { useEffect, useState, useTransition } from 'react';
+import {  useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CreditCard, Smartphone, ArrowLeft, Check } from 'lucide-react';
 import { useCart } from '@/context/cart';
-import { clearCart, createOrder, createPaymentIntent, updateOrderStatus } from '@/lib/actions';
+import {  createPaymentIntent } from '@/lib/actions';
 import { use } from '@/context';
-import { EventName, ListenerData } from 'kkiapay';
 
 export default function ShippingForm() {
     const { total, } = useCart();

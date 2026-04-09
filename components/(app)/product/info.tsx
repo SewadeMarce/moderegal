@@ -1,6 +1,7 @@
 'use client';
 import AddBtn, { QuantityStepper } from "@/components/ui/(app)/btn-action";
-import { Heart, RotateCcw, Shield, Star, Truck } from "lucide-react";
+import FavoriteButton from "@/components/ui/btn-favorites";
+import {RotateCcw, Shield, Star, Truck } from "lucide-react";
 import { useState } from "react";
 
 
@@ -74,11 +75,10 @@ type ProductType = {
 
 }
 
-export default function Infos({ product=pd }: { product: ProductType }) {
+export default function Infos({ product=pd,favorite }: { product: ProductType ,favorite:boolean}) {
 
   const [selectedSize, setSelectedSize] = useState<string>(product.size[0]);
   const [selectedColor, setSelectedColor] = useState<string>(product.color[0]);
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
 
   return (
@@ -174,7 +174,7 @@ export default function Infos({ product=pd }: { product: ProductType }) {
           color:selectedColor,
            }} />
 
-        <button
+        {/* <button
           onClick={() => setIsWishlisted(!isWishlisted)}
           className={`px-8 py-6 rounded-3xl border-2 flex items-center justify-center transition-all ${isWishlisted
             ? 'bg-red-50 border-red-500 text-red-500'
@@ -182,7 +182,11 @@ export default function Infos({ product=pd }: { product: ProductType }) {
             }`}
         >
           <Heart size={28} className={isWishlisted ? 'fill-current' : ''} />
-        </button>
+        </button> */}
+        <FavoriteButton 
+        productId={product.id}
+        isInitiallyFavorite={favorite}
+        />
       </div>
 
       {/* Informations livraison & garantie */}

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import stripe from "../utils/stripe";
-import { getCurrentUser } from "../data";
+import { add, getCurrentUser, isFavorite, remove } from "../data";
 import { CartItemType, ProductCart } from "@/types";
 import { kkiapayClient } from "../utils/kkiapay";
 
@@ -14,7 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre-secret-super-securise-2026';
 
 
 export async function addToCart(product_id: string, product: ProductCart, quantity: number = 1,) {
-console.log('ajout de produt:', product.image_url);
+  console.log('ajout de produt:', product.image_url);
 
   const user = await getCurrentUser()
   try {
@@ -446,3 +446,35 @@ export async function verifyOrder(transactionId: string, shipping_adress?: {}) {
     client.release();
   }
 }
+
+
+export async function getOrdersByUser(user_id: string) {
+  const { rows } = await pool.query(
+    `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
+    [user_id]
+  );
+  return rows;
+}
+
+
+
+
+
+export async function toggle(user_id: string, product_id: string) {
+  const exists = await isFavorite(user_id, product_id);
+  if (exists) {
+    await remove(user_id, product_id);
+    revalidatePath('/')
+    return { favorited: false };
+  } else {
+    await add(user_id, product_id);
+    revalidatePath('/')
+
+    return { favorited: true };
+  }
+}
+
+
+
+
+

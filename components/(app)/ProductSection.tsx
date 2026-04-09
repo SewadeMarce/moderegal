@@ -10,12 +10,14 @@ interface ProductHorizontalListProps {
   title: string;
   products: Product[];
   subtitle?: string;
+  favoriteIds:string[]
 }
 
 export default function ProductHorizontalList({
   title,
   products,
-  subtitle
+  subtitle,
+favoriteIds
 }: ProductHorizontalListProps) {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -81,7 +83,9 @@ export default function ProductHorizontalList({
             key={product.id}
             className="flex-shrink-0 w-full sm:w-[280px] md:w-[300px] snap-start"
           >
-            <ProductCard product={product} />
+            <ProductCard
+            isInitiallyFavorite={favoriteIds.includes(product.id)}
+             product={product} />
           </div>
         ))}
       </div>

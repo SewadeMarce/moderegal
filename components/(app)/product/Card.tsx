@@ -1,19 +1,18 @@
 'use client';
 import { Product } from '@/types';
-import { Heart, Eye } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AddBtn from '@/components/ui/(app)/btn-action';
+import FavoriteButton from '@/components/ui/btn-favorites';
 
 interface ProductCardProps {
   product: Product;
+  isInitiallyFavorite:boolean
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+const ProductCard = ({ product ,isInitiallyFavorite}: ProductCardProps) => {
   const router = useRouter()
-console.log('imae url :',product.image_url);
 
 
   return (
@@ -46,21 +45,14 @@ console.log('imae url :',product.image_url);
             )}
           </div>
 
+
           {/* Boutons d'action en haut à droite - VISIBLES PAR DÉFAUT */}
           <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setIsWishlisted(!isWishlisted);
-              }}
-              className="p-2.5 bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:bg-white transition-all active:scale-90"
-            >
-              <Heart
-                size={18}
-                className={`${isWishlisted ? 'fill-red-500 text-red-500' : 'text-regal-600'}`}
-              />
-            </button>
-
+          
+            <FavoriteButton
+              productId={product.id}
+              isInitiallyFavorite={isInitiallyFavorite }
+            />
             <button
               onClick={(e) => {
                 e.preventDefault();

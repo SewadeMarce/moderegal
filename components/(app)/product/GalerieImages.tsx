@@ -1,49 +1,7 @@
 'use client';
 import { useState } from "react";
-import { Product } from "@/types";
 import Image from "next/image";
-const pd ={
-  id: '33333333-3333-3333-3333-000000000001',
-  name: 'Chemise Oxford Slim',
-  slug: 'chemise-oxford-slim',
-  description: 'Chemise Oxford coupe slim, idéale pour le bureau ou les sorties.',
-  price: '15000',
-  category_id: '22222222-2222-2222-2222-000000000001',
-  image_url: '/images/img-24.jpg',
-  images: [
-    {
-      alt: 'Veste face',
-      url: '/images/img-24.jpg',
-      name: 'Face',
-      width: 4000,
-      height: 6000
-    },
-    {
-      alt: 'Veste face',
-      url: '/images/img-11.jpg',
-      name: 'Face',
-      width: 3648,
-      height: 3648
-    },
-    {
-      alt: 'Veste dos',
-      url: '/images/img-25.jpg',
-      name: 'Dos',
-      width: 2339,
-      height: 3508
-    }
-  ],
-  size: [ 'S', 'M', 'L', 'XL' ],
-  color: [ '#FFFFFF', '#679FFA', '#87CEEB' ],
-  stock: 45,
-  is_new: true,
-  is_promo: false,
-  discount_price: null,
-  discount_percentage: null,
-  created_at: '2026-04-08T10:44:49.517Z',
-  updated_at: '2026-04-08T10:44:49.517Z',
-  category: 'Vêtements Hommes'
-}
+
 type ProductType = {
     id: string;
     name: string;
@@ -72,7 +30,7 @@ type ProductType = {
 
 }
 
-export default function GalerieImages({ product=pd }: { product: ProductType }) {
+export default function GalerieImages({ product}: { product: ProductType }) {
     // Simuler plusieurs images (tu peux les remplacer par de vraies URLs)
     const [images, setImages] = useState(product.images[0]);
     

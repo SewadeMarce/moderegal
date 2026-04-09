@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { ShoppingCart, Menu, X, ChevronRight, User, Search } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronRight, User,  } from 'lucide-react';
 import CartDrawer from '../ui/CartDrawer';
 import { useCart } from '@/context/cart';
 import UserMenu from '../ui/userMenu';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { items: cart, count: totalItems } = useCart();
+  const {count: totalItems } = useCart();
   const { user } = use();
   const router = useRouter()
   useEffect(() => {

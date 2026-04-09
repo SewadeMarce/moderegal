@@ -1,9 +1,6 @@
 'use client';
-import { use } from "@/context";
-import { clearCart, updateOrderStatus } from "@/lib/actions";
-import { ArrowRight, CheckCircle, Home, Package, Truck } from "lucide-react";
+import { ArrowRight, CheckCircle, Package, Truck } from "lucide-react";
 import Link from "next/link";
-import { startTransition, useEffect, } from "react";
 
 export default function SuccessContent({orderId,status}: {orderId: string,status:string}) {
  

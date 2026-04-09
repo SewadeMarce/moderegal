@@ -1,12 +1,10 @@
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
-import Link from 'next/link';
 
 const Footer = () => {
   return (
     <footer className="bg-regal-700 text-white">
 
         {/* Ligne de séparation */}
-        <div className="border-t border-white/10 my-16 pt-8">
+        <div className="border-t border-white/10 my-16 p-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-400">
             <div>
               © {new Date().getFullYear()} ModeRegal. Tous droits réservés.

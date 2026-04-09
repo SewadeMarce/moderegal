@@ -1,7 +1,5 @@
 // app/checkout/page.tsx
 import KkiapayCheckout from "@/components/payement/Kkiapay";
-import { Phone } from "lucide-react";
-import { redirect } from "next/navigation";
 
 export default async function CheckoutPage({searchParams}: { searchParams: { userId?: string, fullName?: string, email?: string, phone?: string , amount?: number, city?: string, address?: string} }) {
 

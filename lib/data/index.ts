@@ -158,3 +158,91 @@ export async function getCurrentUser(): Promise<{ id: string; full_name: string;
     return null;
   }
 }
+
+
+
+
+
+// lib/db/favorites.ts
+export async function getUserFavoritesIds(userId: string): Promise<string[]> {
+  const result = await pool.query(
+    'SELECT product_id FROM favorites WHERE user_id = $1',
+    [userId]
+  );
+  // On retourne un tableau d'IDs : ['uuid-1', 'uuid-2', ...]
+  return result.rows.map(row => row.product_id);
+}
+
+
+export async function isFavorite(user_id: string, product_id: string) {
+  const { rows } = await pool.query(
+    `SELECT 1 FROM favorites WHERE user_id = $1 AND product_id = $2`,
+    [user_id, product_id]
+  );
+  return rows.length > 0;
+}
+
+
+
+export async function findFavoritesByUser(user_id: string) {
+  const { rows } = await pool.query(
+    `SELECT f.*, p.name, p.slug, p.image_url, p.price, p.discount_price,
+              p.discount_percentage, p.is_promo, p.color, p.color_hex
+       FROM favorites f
+       JOIN products p ON p.id = f.product_id
+       WHERE f.user_id = $1
+       ORDER BY f.created_at DESC`,
+    [user_id]
+  );
+  return rows;
+}
+// CHECK — est-ce que le produit est en favori ?
+
+// REMOVE
+export async function remove(user_id: string, product_id: string) {
+  const { rowCount } = await pool.query(
+    `DELETE FROM favorites WHERE user_id = $1 AND product_id = $2`,
+    [user_id, product_id]
+  );
+  return rowCount! > 0;
+}
+
+
+export async function add(user_id: string, product_id: string) {
+  const { rows } = await pool.query(
+    `INSERT INTO favorites (user_id, product_id)
+       VALUES ($1, $2)
+       ON CONFLICT (user_id, product_id) DO NOTHING
+       RETURNING *`,
+    [user_id, product_id]
+  );
+  return rows[0] || null;
+}
+
+export async function getFavoritesByUser(user_id:string) {
+  const { rows } = await pool.query(
+    `SELECT f.id AS favorite_id, f.created_at,
+             p.*, c.name as category
+     FROM favorites f
+     JOIN products p ON p.id = f.product_id
+     JOIN categories c ON p.category_id = c.id 
+     WHERE f.user_id = $1
+     ORDER BY f.created_at DESC`,
+    [user_id]
+  );
+  return rows;
+}
+
+
+
+
+
+export async function getUserById(id:string) {
+  const { rows } = await pool.query(
+    `SELECT id, full_name, email, phone, address, city, role, created_at
+     FROM users
+     WHERE id = $1`,
+    [id]
+  );
+  return rows[0] ?? null;
+}
