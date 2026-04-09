@@ -95,7 +95,7 @@ const Navbar = () => {
 
           <div className="mt-8">
             {user ?
-              (<div className="px-6 py-5 border-b">
+              (<Link href={'/dashboard'} className="px-6 py-5 border-b">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 bg-regal-500 text-white rounded-2xl flex items-center justify-center text-3xl font-bold">
                     {user?.full_name?.charAt(0).toUpperCase()}
@@ -105,7 +105,7 @@ const Navbar = () => {
                     <p className="text-sm text-gray-500">{user?.email}</p>
                   </div>
                 </div>
-              </div>) :
+              </Link>) :
               (
                 <button
                   onClick={() => router.push('/auth')} className="flex items-center justify-center gap-2 bg-regal-700 p-4 rounded-2xl text-sm font-semibold hover:bg-regal-800 transition-colors">
