@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -11,9 +11,9 @@ type AuthMode = 'login' | 'register';
 export default function AuthForm() {
     const [mode, setMode] = useState<AuthMode>('login');
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
+    const [isPending, startTransition] = useTransition();
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -21,23 +21,22 @@ export default function AuthForm() {
         confirmPassword: '',
     });
 
-    const handleSubmit = async (formData: FormData) => {
+    const handleSubmit = (formData: FormData) => {
         setError('');
-        setIsLoading(true);
+        startTransition(async () => {
+            try {
+                if (mode === 'register') {
+                    await registerUser(formData);
+                } else {
+                    await loginUser(formData);
+                }
+                router.push('/');
+            } catch (err) {
 
-        try {
-            if (mode === 'register') {
-                await registerUser(formData);
-            } else {
-                await loginUser(formData);
+                setError('Email ou mot de passe incorrect');
+
             }
-            router.push('/');
-        } catch (err) {
-            
-            setError(err instanceof Error ? err.message : 'Une erreur est survenue');
-        } finally {
-            setIsLoading(false);
-        }
+        })
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,10 +157,10 @@ export default function AuthForm() {
 
                 <button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isPending}
                     className="w-full bg-yellow-500 hover:bg-yellow-400 disabled:bg-gray-300 text-regal-700 font-bold text-xl py-6 rounded-3xl transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
                 >
-                    {isLoading ? (
+                    {isPending ? (
                         'Connexion en cours...'
                     ) : mode === 'login' ? (
                         <>
