@@ -1,64 +1,803 @@
-import pool from "../db";
+const moreProducts = [
+  {
+    id: ID.prod6,
+    name: "Mocassins en Daim",
+    slug: "mocassins-daim-luxe",
+    description: "Mocassins élégants en daim véritable, parfaits pour un look chic-décontracté.",
+    price: 35000,
+    category_id: ID.cat3,
+    image_url: "/images/img-42.jpg",
+    images: [
+      { url: "/images/img-42.jpg", name: "Face", alt: "Mocassins face", width: 4000, height: 6000 },
+      { url: "/images/img-43.jpg", name: "Profil", alt: "Mocassins profil", width: 4000, height: 6000 }
+    ],
+    size: ["40", "41", "42", "43", "44", "45"],
+    color: ["#4E342E", "#1A1A1A"],
+    stock: 15,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod7,
+    name: "Jupe Plissée Midi",
+    slug: "jupe-plissee-midi",
+    description: "Jupe midi plissée avec taille élastique, fluide et légère.",
+    price: 18500,
+    category_id: ID.cat2,
+    image_url: "/images/img-44.jpg",
+    images: [
+      { url: "/images/img-44.jpg", name: "Face", alt: "Jupe face", width: 3500, height: 5000 }
+    ],
+    size: ["S", "M", "L"],
+    color: ["#FFB74D", "#F06292", "#FFFFFF"],
+    stock: 25,
+    is_new: false,
+    is_promo: true,
+    discount_price: 15000,
+    discount_percentage: 19,
+  },
+  {
+    id: ID.prod8,
+    name: "Montre Minimaliste",
+    slug: "montre-minimaliste-cuir",
+    description: "Montre à quartz avec bracelet en cuir noir et cadran épuré.",
+    price: 45000,
+    category_id: ID.cat4,
+    image_url: "/images/img-45.jpg",
+    images: [
+      { url: "/images/img-45.jpg", name: "Zoom", alt: "Montre zoom", width: 2000, height: 2000 }
+    ],
+    size: [],
+    color: ["#000000", "#C0C0C0"],
+    stock: 10,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod9,
+    name: "Pantalon Chino Slim",
+    slug: "pantalon-chino-slim",
+    description: "Pantalon chino en coton stretch, coupe ajustée, plusieurs coloris disponibles.",
+    price: 17000,
+    category_id: ID.cat1,
+    image_url: "/images/img-46.jpg",
+    images: [
+      { url: "/images/img-46.jpg", name: "Face", alt: "Chino face", width: 3000, height: 4500 }
+    ],
+    size: ["30", "32", "34", "36", "38"],
+    color: ["#5D4037", "#263238", "#ECEFF1"],
+    stock: 50,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod10,
+    name: "Blouse en Soie",
+    slug: "blouse-soie-elegance",
+    description: "Blouse 100% soie, col en V, idéale pour les grandes occasions.",
+    price: 29000,
+    category_id: ID.cat2,
+    image_url: "/images/img-47.jpg",
+    images: [
+      { url: "/images/img-47.jpg", name: "Face", alt: "Blouse face", width: 3200, height: 4800 }
+    ],
+    size: ["M", "L", "XL"],
+    color: ["#E1BEE7", "#FFFFFF"],
+    stock: 12,
+    is_new: true,
+    is_promo: true,
+    discount_price: 24500,
+    discount_percentage: 15,
+  },
+  {
+    id: ID.prod11,
+    name: "Ceinture Cuir Classique",
+    slug: "ceinture-cuir-classique",
+    description: "Ceinture robuste en cuir de vachette avec boucle en acier brossé.",
+    price: 8500,
+    category_id: ID.cat4,
+    image_url: "/images/img-48.jpg",
+    images: [
+      { url: "/images/img-48.jpg", name: "Face", alt: "Ceinture", width: 2500, height: 2500 }
+    ],
+    size: ["90", "95", "100", "105"],
+    color: ["#3E2723", "#000000"],
+    stock: 100,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod12,
+    name: "Sandales d'Été",
+    slug: "sandales-ete-confort",
+    description: "Sandales légères avec semelle ergonomique pour de longues marches.",
+    price: 14000,
+    category_id: ID.cat3,
+    image_url: "/images/img-49.jpg",
+    images: [
+      { url: "/images/img-49.jpg", name: "Face", alt: "Sandales", width: 3000, height: 3000 }
+    ],
+    size: ["37", "38", "39", "40", "41"],
+    color: ["#D7CCC8", "#FFFFFF"],
+    stock: 40,
+    is_new: false,
+    is_promo: true,
+    discount_price: 11000,
+    discount_percentage: 21,
+  },  {
+    id: ID.prod6,
+    name: "Jean Slim Denim",
+    slug: "jean-slim-denim",
+    description: "Jean slim stretch, confortable et tendance pour un look moderne.",
+    price: 18000,
+    category_id: ID.cat1,
+    image_url: "/images/img-50.jpg",
+    images: [
+      { url: "/images/img-50.jpg", name: "Face", alt: "Jean face", width: 3000, height: 4000 },
+      { url: "/images/img-51.jpg", name: "Dos", alt: "Jean dos", width: 3000, height: 4000 }
+    ],
+    size: ["38", "40", "42", "44"],
+    color: ["#1A1A1A", "#0D47A1"],
+    stock: 55,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod7,
+    name: "Sandales Confort",
+    slug: "sandales-confort",
+    description: "Sandales légères idéales pour les journées chaudes.",
+    price: 9500,
+    category_id: ID.cat3,
+    image_url: "/images/img-52.jpg",
+    images: [
+      { url: "/images/img-52.jpg", name: "Face", alt: "Sandales", width: 3000, height: 3000 }
+    ],
+    size: ["39", "40", "41", "42"],
+    color: ["#795548", "#000000"],
+    stock: 70,
+    is_new: false,
+    is_promo: true,
+    discount_price: 8000,
+    discount_percentage: 15,
+  },
+  {
+    id: ID.prod8,
+    name: "Montre Élégante",
+    slug: "montre-elegante",
+    description: "Montre design avec bracelet cuir pour un style chic.",
+    price: 25000,
+    category_id: ID.cat4,
+    image_url: "/images/img-53.jpg",
+    images: [
+      { url: "/images/img-53.jpg", name: "Face", alt: "Montre", width: 3000, height: 3000 }
+    ],
+    size: [],
+    color: ["#000000", "#C0C0C0"],
+    stock: 25,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod9,
+    name: "Jupe Midi Chic",
+    slug: "jupe-midi-chic",
+    description: "Jupe midi fluide parfaite pour le bureau ou les sorties.",
+    price: 14000,
+    category_id: ID.cat2,
+    image_url: "/images/img-54.jpg",
+    images: [
+      { url: "/images/img-54.jpg", name: "Face", alt: "Jupe", width: 3000, height: 4000 }
+    ],
+    size: ["S", "M", "L"],
+    color: ["#E91E63", "#000000"],
+    stock: 35,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod10,
+    name: "Veste Casual",
+    slug: "veste-casual",
+    description: "Veste légère parfaite pour les soirées fraîches.",
+    price: 27000,
+    category_id: ID.cat1,
+    image_url: "/images/img-55.jpg",
+    images: [
+      { url: "/images/img-55.jpg", name: "Face", alt: "Veste", width: 3000, height: 4000 }
+    ],
+    size: ["M", "L", "XL"],
+    color: ["#3E2723", "#1A1A1A"],
+    stock: 20,
+    is_new: true,
+    is_promo: true,
+    discount_price: 23000,
+    discount_percentage: 15,
+  },
+  {
+    id: ID.prod11,
+    name: "Talons Élégants",
+    slug: "talons-elegants",
+    description: "Chaussures à talons pour un look sophistiqué.",
+    price: 21000,
+    category_id: ID.cat3,
+    image_url: "/images/img-56.jpg",
+    images: [
+      { url: "/images/img-56.jpg", name: "Face", alt: "Talons", width: 3000, height: 4000 }
+    ],
+    size: ["37", "38", "39", "40"],
+    color: ["#000000", "#FF6B6B"],
+    stock: 40,
+    is_new: false,
+    is_promo: true,
+    discount_price: 18000,
+    discount_percentage: 14,
+  },
+  {
+    id: ID.prod12,
+    name: "Sac à Dos Urbain",
+    slug: "sac-a-dos-urbain",
+    description: "Sac à dos pratique pour école ou travail.",
+    price: 16000,
+    category_id: ID.cat4,
+    image_url: "/images/img-57.jpg",
+    images: [
+      { url: "/images/img-57.jpg", name: "Face", alt: "Sac", width: 3000, height: 4000 }
+    ],
+    size: [],
+    color: ["#000000", "#455A64"],
+    stock: 50,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod13,
+    name: "Blouse Élégante",
+    slug: "blouse-elegante",
+    description: "Blouse légère parfaite pour toutes occasions.",
+    price: 13000,
+    category_id: ID.cat2,
+    image_url: "/images/img-58.jpg",
+    images: [
+      { url: "/images/img-58.jpg", name: "Face", alt: "Blouse", width: 3000, height: 4000 }
+    ],
+    size: ["S", "M", "L"],
+    color: ["#FFFFFF", "#FFB6C1"],
+    stock: 45,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod14,
+    name: "Basket Sport Pro",
+    slug: "basket-sport-pro",
+    description: "Chaussures de sport performantes et respirantes.",
+    price: 30000,
+    category_id: ID.cat3,
+    image_url: "/images/img-59.jpg",
+    images: [
+      { url: "/images/img-59.jpg", name: "Face", alt: "Basket", width: 3000, height: 4000 }
+    ],
+    size: ["40", "41", "42", "43", "44"],
+    color: ["#000000", "#2196F3"],
+    stock: 60,
+    is_new: true,
+    is_promo: true,
+    discount_price: 26000,
+    discount_percentage: 13,
+  },
+  {
+    id: ID.prod15,
+    name: "Ceinture Cuir Premium",
+    slug: "ceinture-cuir-premium",
+    description: "Ceinture en cuir véritable pour un style classe.",
+    price: 11000,
+    category_id: ID.cat4,
+    image_url: "/images/img-60.jpg",
+    images: [
+      { url: "/images/img-60.jpg", name: "Face", alt: "Ceinture", width: 3000, height: 3000 }
+    ],
+    size: ["M", "L", "XL"],
+    color: ["#3E2723", "#000000"],
+    stock: 75,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  // ─── Nouveaux produits ────────────────────────────────────────────
 
-export async function createOrder({ user_id, total_amount, shipping_fee, payment_method, address, phone, items }: {
-    user_id: string;
-    total_amount: number;
-    shipping_fee: number;
-    payment_method: string;
-    address: string;
-    phone: string;
-    items: {
-        product_id: number;
-        quantity: number;
-        price_at_purchase: number;
-        size?: string | null;
-        color?: string | null;
-    }[];
-}) {
-    const client = await pool.connect();
+  // --- Vêtements Hommes (cat1) ---
+  {
+    id: ID.prod6,
+    name: "Veste Blazer Lin",
+    slug: "veste-blazer-lin",
+    description: "Blazer en lin léger, parfait pour les soirées et événements formels.",
+    price: 35000,
+    category_id: ID.cat1,
+    image_url: "/images/img-01.jpg",
+    images: [
+      { url: "/images/img-01.jpg", name: "Face", alt: "Blazer face", width: 4000, height: 6000 },
+      { url: "/images/img-02.jpg", name: "Côté", alt: "Blazer côté", width: 4000, height: 6000 },
+      { url: "/images/img-03.jpg", name: "Dos",  alt: "Blazer dos",  width: 4000, height: 6000 },
+    ],
+    size: ["S", "M", "L", "XL", "XXL"],
+    color: ["#D2B48C", "#1A1A1A", "#ECEFF1"],
+    stock: 25,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod7,
+    name: "Pantalon Chino Stretch",
+    slug: "pantalon-chino-stretch",
+    description: "Pantalon chino en coton stretch, coupe droite, idéal au quotidien.",
+    price: 18000,
+    category_id: ID.cat1,
+    image_url: "/images/img-04.jpg",
+    images: [
+      { url: "/images/img-04.jpg", name: "Face", alt: "Pantalon face", width: 4000, height: 6000 },
+      { url: "/images/img-05.jpg", name: "Côté", alt: "Pantalon côté", width: 3648, height: 5472 },
+      { url: "/images/img-06.jpg", name: "Dos",  alt: "Pantalon dos",  width: 3648, height: 5472 },
+    ],
+    size: ["38", "40", "42", "44", "46"],
+    color: ["#C8A876", "#1A1A1A", "#607D8B"],
+    stock: 55,
+    is_new: false,
+    is_promo: true,
+    discount_price: 14000,
+    discount_percentage: 22,
+  },
+  {
+    id: ID.prod8,
+    name: "T-Shirt Oversize Premium",
+    slug: "tshirt-oversize-premium",
+    description: "T-shirt oversize en coton 100 %, col rond, coupe décontractée.",
+    price: 8500,
+    category_id: ID.cat1,
+    image_url: "/images/img-07.jpg",
+    images: [
+      { url: "/images/img-07.jpg", name: "Face", alt: "T-shirt face", width: 4000, height: 6000 },
+      { url: "/images/img-08.jpg", name: "Dos",  alt: "T-shirt dos",  width: 4000, height: 6000 },
+    ],
+    size: ["S", "M", "L", "XL", "XXL"],
+    color: ["#FFFFFF", "#1A1A1A", "#B0BEC5", "#A5D6A7"],
+    stock: 120,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
 
-    try {
-        await client.query('BEGIN');
+  // --- Vêtements Femmes (cat2) ---
+  {
+    id: ID.prod9,
+    name: "Blouse Brodée Boubou",
+    slug: "blouse-brodee-boubou",
+    description: "Blouse longue style boubou avec broderies dorées sur le col et les manches.",
+    price: 27000,
+    category_id: ID.cat2,
+    image_url: "/images/img-09.jpg",
+    images: [
+      { url: "/images/img-09.jpg", name: "Face", alt: "Blouse face", width: 4160, height: 6240 },
+      { url: "/images/img-10.jpg", name: "Détail", alt: "Blouse détail", width: 4160, height: 6240 },
+      { url: "/images/img-11.jpg", name: "Dos",   alt: "Blouse dos",   width: 3648, height: 3648 },
+    ],
+    size: ["S", "M", "L", "XL", "XXL"],
+    color: ["#FFF9C4", "#CE93D8", "#80DEEA"],
+    stock: 18,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod10,
+    name: "Jupe Midi Wax",
+    slug: "jupe-midi-wax",
+    description: "Jupe midi taille haute en wax, fermeture éclair invisible, coupe évasée.",
+    price: 14500,
+    category_id: ID.cat2,
+    image_url: "/images/img-12.jpg",
+    images: [
+      { url: "/images/img-12.jpg", name: "Face", alt: "Jupe face", width: 3648, height: 5472 },
+      { url: "/images/img-13.jpg", name: "Côté", alt: "Jupe côté", width: 3648, height: 5472 },
+      { url: "/images/img-14.jpg", name: "Dos",  alt: "Jupe dos",  width: 3648, height: 5472 },
+    ],
+    size: ["XS", "S", "M", "L", "XL"],
+    color: ["#FF8F00", "#43A047", "#E53935"],
+    stock: 35,
+    is_new: false,
+    is_promo: true,
+    discount_price: 11000,
+    discount_percentage: 24,
+  },
+  {
+    id: ID.prod11,
+    name: "Robe Cocktail Dentelle",
+    slug: "robe-cocktail-dentelle",
+    description: "Robe courte en dentelle, col V, idéale pour les soirées et occasions spéciales.",
+    price: 32000,
+    category_id: ID.cat2,
+    image_url: "/images/img-15.jpg",
+    images: [
+      { url: "/images/img-15.jpg", name: "Face", alt: "Robe face", width: 4000, height: 6000 },
+      { url: "/images/img-16.jpg", name: "Côté", alt: "Robe côté", width: 2935, height: 3894 },
+      { url: "/images/img-17.jpg", name: "Dos",  alt: "Robe dos",  width: 4000, height: 6000 },
+    ],
+    size: ["XS", "S", "M", "L"],
+    color: ["#1A1A1A", "#C62828", "#4A148C"],
+    stock: 12,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
 
-        // 1. Insérer la commande
-        const { rows: orderRows } = await client.query(
-            `INSERT INTO orders (user_id, total_amount, shipping_fee, payment_method, address, phone)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING *`,
-            [user_id, total_amount, shipping_fee ?? 5000, payment_method ?? 'mobile_money', address, phone]
-        );
-        const order = orderRows[0];
+  // --- Chaussures (cat3) ---
+  {
+    id: ID.prod12,
+    name: "Sandales Tressées Cuir",
+    slug: "sandales-tressees-cuir",
+    description: "Sandales plates tressées en cuir véritable, confort toute la journée.",
+    price: 16500,
+    category_id: ID.cat3,
+    image_url: "/images/img-18.jpg",
+    images: [
+      { url: "/images/img-18.jpg", name: "Face",  alt: "Sandales face",  width: 4000, height: 6000 },
+      { url: "/images/img-19.jpg", name: "Semelle", alt: "Sandales semelle", width: 4000, height: 6000 },
+      { url: "/images/img-20.jpg", name: "Côté",  alt: "Sandales côté",  width: 3712, height: 5568 },
+    ],
+    size: ["36", "37", "38", "39", "40", "41"],
+    color: ["#C8864E", "#1A1A1A", "#D2B48C"],
+    stock: 40,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod13,
+    name: "Mocassins Loafer Premium",
+    slug: "mocassins-loafer-premium",
+    description: "Mocassins élégants en cuir, semelle souple, idéaux pour le bureau.",
+    price: 24000,
+    category_id: ID.cat3,
+    image_url: "/images/img-21.jpg",
+    images: [
+      { url: "/images/img-21.jpg", name: "Face", alt: "Mocassins face", width: 4000, height: 6000 },
+      { url: "/images/img-22.jpg", name: "Côté", alt: "Mocassins côté", width: 4000, height: 6000 },
+      { url: "/images/img-23.jpg", name: "Dos",  alt: "Mocassins dos",  width: 4000, height: 6000 },
+    ],
+    size: ["39", "40", "41", "42", "43", "44", "45"],
+    color: ["#795548", "#1A1A1A"],
+    stock: 30,
+    is_new: false,
+    is_promo: true,
+    discount_price: 19500,
+    discount_percentage: 19,
+  },
+  {
+    id: ID.prod14,
+    name: "Baskets Running Pro",
+    slug: "baskets-running-pro",
+    description: "Chaussures de running haute performance, semelle à absorption de chocs.",
+    price: 38000,
+    category_id: ID.cat3,
+    image_url: "/images/img-26.jpg",
+    images: [
+      { url: "/images/img-26.jpg", name: "Face", alt: "Baskets face", width: 4000, height: 6000 },
+      { url: "/images/img-27.jpg", name: "Côté", alt: "Baskets côté", width: 3024, height: 4032 },
+      { url: "/images/img-28.jpg", name: "Dos",  alt: "Baskets dos",  width: 4160, height: 6240 },
+    ],
+    size: ["38", "39", "40", "41", "42", "43", "44", "45"],
+    color: ["#E53935", "#1A1A1A", "#1565C0"],
+    stock: 50,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
 
-        // 2. Insérer les items + décrémenter le stock
-        for (const item of items) {
-            await client.query(
-                `INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase, size, color)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-                [order.id, item.product_id, item.quantity, item.price_at_purchase, item.size ?? null, item.color ?? null]
-            );
+  // --- Accessoires (cat4) ---
+  {
+    id: ID.prod15,
+    name: "Montre Solaire Acier",
+    slug: "montre-solaire-acier",
+    description: "Montre à cadran solaire, boîtier en acier inoxydable, bracelet en cuir.",
+    price: 45000,
+    category_id: ID.cat4,
+    image_url: "/images/img-32.jpg",
+    images: [
+      { url: "/images/img-32.jpg", name: "Face",    alt: "Montre face",    width: 4000, height: 4000 },
+      { url: "/images/img-34.jpg", name: "Profil",  alt: "Montre profil",  width: 4000, height: 4000 },
+      { url: "/images/img-35.jpg", name: "Bracelet", alt: "Montre bracelet", width: 4000, height: 4000 },
+    ],
+    size: [],
+    color: ["#C0C0C0", "#FFD700", "#1A1A1A"],
+    stock: 15,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod16,
+    name: "Ceinture Tressée Cuir",
+    slug: "ceinture-tressee-cuir",
+    description: "Ceinture tressée en cuir véritable, boucle argentée, plusieurs tailles.",
+    price: 9500,
+    category_id: ID.cat4,
+    image_url: "/images/img-36.jpg",
+    images: [
+      { url: "/images/img-36.jpg", name: "Face",  alt: "Ceinture face",  width: 4000, height: 2000 },
+      { url: "/images/img-37.jpg", name: "Détail", alt: "Ceinture détail", width: 4000, height: 2000 },
+    ],
+    size: ["85cm", "90cm", "95cm", "100cm", "105cm"],
+    color: ["#795548", "#1A1A1A"],
+    stock: 65,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod17,
+    name: "Sac à Dos Canvas",
+    slug: "sac-a-dos-canvas",
+    description: "Sac à dos en toile canvas robuste, compartiment laptop 15\", sangles rembourrées.",
+    price: 23000,
+    category_id: ID.cat4,
+    image_url: "/images/img-42.jpg",
+    images: [
+      { url: "/images/img-42.jpg", name: "Face", alt: "Sac à dos face", width: 4000, height: 6000 },
+      { url: "/images/img-43.jpg", name: "Côté", alt: "Sac à dos côté", width: 4000, height: 6000 },
+      { url: "/images/img-44.jpg", name: "Dos",  alt: "Sac à dos dos",  width: 4000, height: 6000 },
+    ],
+    size: [],
+    color: ["#607D8B", "#1A1A1A", "#6D4C41"],
+    stock: 28,
+    is_new: false,
+    is_promo: true,
+    discount_price: 18500,
+    discount_percentage: 20,
+  },
+  {
+    id: ID.prod18,
+    name: "Collier Perles Africaines",
+    slug: "collier-perles-africaines",
+    description: "Collier artisanal en perles de verre colorées, fait main au Bénin.",
+    price: 7500,
+    category_id: ID.cat4,
+    image_url: "/images/img-45.jpg",
+    images: [
+      { url: "/images/img-45.jpg", name: "Face",  alt: "Collier face",  width: 4000, height: 4000 },
+      { url: "/images/img-46.jpg", name: "Détail", alt: "Collier détail", width: 4000, height: 4000 },
+    ],
+    size: [],
+    color: ["#FF6B6B", "#FFD600", "#43A047", "#1565C0"],
+    stock: 50,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
 
+  // === NOUVEAUX PRODUITS ===
 
-
-        }
-
-        await client.query('COMMIT');
-        return order;
-    } catch (err) {
-        await client.query('ROLLBACK');
-        throw err;
-    } finally {
-        client.release();
-    }
-}
-
-export function formatTime(time:string) {
-
-    const Time = new Intl.DateTimeFormat('fr-FR', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  }).format(new Date(time))
-
-  return Time
-    
-}
+  {
+    id: ID.prod6,
+    name: "Chemise Wax Dashiki",
+    slug: "chemise-wax-dashiki",
+    description: "Chemise homme en wax africain, style dashiki moderne, manches courtes.",
+    price: 18500,
+    category_id: ID.cat1,
+    image_url: "/images/img-wax-shirt.jpg",
+    images: [
+      { url: "/images/img-wax-shirt.jpg", name: "Face", alt: "Chemise wax face" },
+      { url: "/images/img-wax-shirt2.jpg", name: "Face", alt: "Chemise wax face" }
+    ],
+    size: ["M", "L", "XL", "XXL"],
+    color: ["#FF4500", "#006400", "#FFD700"],
+    stock: 35,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod7,
+    name: "Robe Sirène Wax",
+    slug: "robe-sirene-wax",
+    description: "Robe sirène élégante en tissu wax, parfaite pour les cérémonies et soirées.",
+    price: 28000,
+    category_id: ID.cat2,
+    image_url: "/images/img-robe-sirene.jpg",
+    images: [
+      { url: "/images/img-robe-sirene.jpg", name: "Face", alt: "Robe sirène face" },
+      { url: "/images/img-robe-sirene2.jpg", name: "Dos", alt: "Robe sirène dos" }
+    ],
+    size: ["S", "M", "L", "XL"],
+    color: ["#8B008B", "#FF1493", "#00CED1"],
+    stock: 25,
+    is_new: true,
+    is_promo: true,
+    discount_price: 23500,
+    discount_percentage: 16,
+  },
+  {
+    id: ID.prod8,
+    name: "Sandales Cuir Tressé",
+    slug: "sandales-cuir-tresse",
+    description: "Sandales plates en cuir tressé, confortables et stylées pour l'été.",
+    price: 14500,
+    category_id: ID.cat3,
+    image_url: "/images/img-sandales.jpg",
+    images: [
+      { url: "/images/img-sandales.jpg", name: "Face", alt: "Sandales face" }
+    ],
+    size: ["37", "38", "39", "40", "41"],
+    color: ["#8B4513", "#000000", "#D2B48C"],
+    stock: 50,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod9,
+    name: "Ceinture Cuir Réglable",
+    slug: "ceinture-cuir-reglable",
+    description: "Ceinture en cuir synthétique avec boucle métallique élégante.",
+    price: 8500,
+    category_id: ID.cat4,
+    image_url: "/images/img-ceinture.jpg",
+    images: [
+      { url: "/images/img-ceinture.jpg", name: "Face", alt: "Ceinture face" }
+    ],
+    size: ["90cm", "100cm", "110cm"],
+    color: ["#2F2F2F", "#8B4513"],
+    stock: 70,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod10,
+    name: "T-shirt Oversize Basique",
+    slug: "tshirt-oversize-basique",
+    description: "T-shirt oversize en coton doux, idéal pour un look streetwear décontracté.",
+    price: 9500,
+    category_id: ID.cat1,
+    image_url: "/images/img-tshirt-oversize.jpg",
+    images: [
+      { url: "/images/img-tshirt-oversize.jpg", name: "Face", alt: "T-shirt face" },
+      { url: "/images/img-tshirt-oversize2.jpg", name: "Dos", alt: "T-shirt dos" }
+    ],
+    size: ["S", "M", "L", "XL"],
+    color: ["#000000", "#FFFFFF", "#FF0000", "#00FF00"],
+    stock: 120,
+    is_new: false,
+    is_promo: true,
+    discount_price: 7900,
+    discount_percentage: 17,
+  },
+  {
+    id: ID.prod11,
+    name: "Blouse Fluide à Manches Bouffantes",
+    slug: "blouse-fluide-manches-bouffantes",
+    description: "Blouse légère et féminine, parfaite pour le quotidien ou les sorties.",
+    price: 16500,
+    category_id: ID.cat2,
+    image_url: "/images/img-blouse.jpg",
+    images: [
+      { url: "/images/img-blouse.jpg", name: "Face", alt: "Blouse face" }
+    ],
+    size: ["S", "M", "L"],
+    color: ["#F5F5DC", "#C71585", "#4682B4"],
+    stock: 40,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod12,
+    name: "Baskets Montantes Canvas",
+    slug: "baskets-montantes-canvas",
+    description: "Baskets montantes en toile, style vintage et confortable.",
+    price: 22500,
+    category_id: ID.cat3,
+    image_url: "/images/img-baskets-montantes.jpg",
+    images: [
+      { url: "/images/img-baskets-montantes.jpg", name: "Face", alt: "Baskets face" }
+    ],
+    size: ["38", "39", "40", "41", "42"],
+    color: ["#2F2F2F", "#FFFFFF", "#556B2F"],
+    stock: 55,
+    is_new: false,
+    is_promo: true,
+    discount_price: 18900,
+    discount_percentage: 16,
+  },
+  {
+    id: ID.prod13,
+    name: "Sac à Main Cuir Synthétique",
+    slug: "sac-a-main-cuir",
+    description: "Sac à main structuré, élégant et spacieux pour tous les jours.",
+    price: 23500,
+    category_id: ID.cat4,
+    image_url: "/images/img-sac-a-main.jpg",
+    images: [
+      { url: "/images/img-sac-a-main.jpg", name: "Face", alt: "Sac à main face" },
+      { url: "/images/img-sac-a-main2.jpg", name: "Intérieur", alt: "Sac à main intérieur" }
+    ],
+    size: [],
+    color: ["#000000", "#A52A2A", "#F4A460"],
+    stock: 28,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod14,
+    name: "Short Chino Casual",
+    slug: "short-chino-casual",
+    description: "Short chino en coton, confortable et polyvalent pour l'été.",
+    price: 13500,
+    category_id: ID.cat1,
+    image_url: "/images/img-short-chino.jpg",
+    images: [
+      { url: "/images/img-short-chino.jpg", name: "Face", alt: "Short face" }
+    ],
+    size: ["30", "32", "34", "36"],
+    color: ["#BEIGE", "#2F4F4F", "#8B4513"],
+    stock: 65,
+    is_new: false,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+  {
+    id: ID.prod15,
+    name: "Boucles d'Oreilles Wax & Perles",
+    slug: "boucles-oreilles-wax-perles",
+    description: "Boucles d'oreilles artisanales mélangeant tissu wax et perles en bois.",
+    price: 6500,
+    category_id: ID.cat4,
+    image_url: "/images/img-boucles-wax.jpg",
+    images: [
+      { url: "/images/img-boucles-wax.jpg", name: "Face", alt: "Boucles d'oreilles" }
+    ],
+    size: [],
+    color: ["#FF4500", "#228B22", "#FFD700"],
+    stock: 90,
+    is_new: true,
+    is_promo: false,
+    discount_price: null,
+    discount_percentage: null,
+  },
+];
+const allProducts = [...products, ...moreProducts];

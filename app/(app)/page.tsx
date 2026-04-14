@@ -1,11 +1,47 @@
-import Categories from '@/components/(app)/Categories';
+import Categories, { CategoryInfiniteScroll } from '@/components/(app)/Categories';
 import ProductHorizontalList from '@/components/(app)/ProductSection';
 import { CategorySkeleton } from '@/components/ui/(app)/categories-skeleton';
-import { getAllCategories, getCurrentUser, getFeaturedProducts, getUserFavoritesIds } from '@/lib/data';
+import { getAllCategories, getCurrentUser, getFeaturedProducts, getProductByCategories, getUserFavoritesIds } from '@/lib/data';
 import { ArrowRight, Truck, ShieldCheck, Award } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
-
+const Categorie = [
+  {
+    id: 1,
+    name: "Hommes",
+    slug: "hommes",
+    image: "/images/img-10",
+    count: 124
+  },
+  {
+    id: 2,
+    name: "Femmes",
+    slug: "femmes",
+    image: "/images/img-01",
+    count: 98
+  },
+  {
+    id: 3,
+    name: "Enfants",
+    slug: "enfants",
+    image: "/images/img-10",
+    count: 67
+  },
+  {
+    id: 4,
+    name: "Chaussures",
+    slug: "chaussures",
+    image: "/images/img-20",
+    count: 45
+  },
+  {
+    id: 5,
+    name: "Accessoires",
+    slug: "accessoires",
+    image: "/images/img-23",
+    count: 82
+  },
+];
 export default async function Page() {
   const categories = await getAllCategories();
   const featuredProducts = await getFeaturedProducts();
@@ -95,28 +131,18 @@ export default async function Page() {
           </Suspense>
         </div>
       </section>
-
+     
       {/* PRODUITS EN VEDETTE */}
       <section id="promotions" className="py-20 bg-gray-50">
         <Suspense fallback={<ProductSkeleton />}>
 
-          <ProductHorizontalList
-            title="SÉLECTION EXCLUSIVE"
-            subtitle="Nos Coups de Cœur"
-            products={featuredProducts}
-            favoriteIds={favoriteIds}
-          />
+          <Promotion favoriteIds={favoriteIds} />
         </Suspense>
       </section>
 
       <section id="hommes" className="py-20 bg-gray-50">
         <Suspense fallback={<ProductSkeleton />}>
-          <ProductHorizontalList
-            title="Nouvelles Arrivées"
-            subtitle="Découvrez nos dernières pièces"
-            products={featuredProducts}
-            favoriteIds={favoriteIds}
-          />
+          <Hommes favoriteIds={favoriteIds} />
         </Suspense>
       </section>
 
@@ -125,12 +151,7 @@ export default async function Page() {
       <section id="femmes" className="py-20 bg-gray-50">
         <Suspense fallback={<ProductSkeleton />}>
 
-          <ProductHorizontalList
-            title="Meilleures Ventes"
-            subtitle="Les produits les plus populaires"
-            products={featuredProducts}
-            favoriteIds={favoriteIds}
-          />
+          <Femmes favoriteIds={favoriteIds} />
         </Suspense>
       </section>
     </>
@@ -151,3 +172,35 @@ const ProductSkeleton = () => {
     </div>
   );
 };
+
+const Hommes = async ({ favoriteIds }: { favoriteIds: string[] }) => {
+  const hommes = await getProductByCategories("22222222-2222-2222-2222-000000000001")
+  return <ProductHorizontalList
+    title="Nouvelles Arrivées pour les hommes"
+    subtitle="Découvrez nos dernières pièces hommes"
+    products={hommes}
+    favoriteIds={favoriteIds}
+  />
+}
+
+
+
+const Femmes = async ({ favoriteIds }: { favoriteIds: string[] }) => {
+  const femmes = await getProductByCategories("22222222-2222-2222-2222-000000000002")
+  return <ProductHorizontalList
+    title="Meilleures Produits pour Femme"
+    subtitle="Les produits les plus populaires pour Femme"
+    products={femmes}
+    favoriteIds={favoriteIds}
+  />
+}
+
+const Promotion = async ({ favoriteIds }: { favoriteIds: string[] }) => {
+  const promotion = await getFeaturedProducts()
+  return <ProductHorizontalList
+    title="SÉLECTION EXCLUSIVE"
+    subtitle="Nos Coups de Cœur"
+    products={promotion}
+    favoriteIds={favoriteIds}
+  />
+}

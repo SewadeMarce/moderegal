@@ -16,15 +16,15 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
   return (
     <>
-      {isOpen && (
+      {/* {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]"
           onClick={onClose}
         />
-      )}
+      )} */}
 
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[100] transform transition-transform duration-300 flex flex-col
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[200] transform transition-transform duration-300 flex flex-col
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Header */}
@@ -143,7 +143,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
             </div>
 
             <button
-              className="w-full bg-yellow-500 hover:bg-yellow-400 text-regal-700 cursor-auto font-bold text-xl py-6 rounded-3xl transition-all active:scale-[0.98]"
+              className="w-full bg-yellow-500 hover:bg-yellow-400 text-regal-700 cursor-pointer font-bold text-xl py-6 rounded-3xl transition-all active:scale-[0.98]"
               onClick={() => {
                 router.push('/payment')
                 onClose()

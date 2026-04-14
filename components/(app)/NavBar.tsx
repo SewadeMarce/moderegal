@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { ShoppingCart, Menu, X, ChevronRight, User,  } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronRight, User, } from 'lucide-react';
 import CartDrawer from '../ui/CartDrawer';
 import { useCart } from '@/context/cart';
 import UserMenu from '../ui/userMenu';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const {count: totalItems } = useCart();
+  const { count: totalItems } = useCart();
   const { user } = use();
   const router = useRouter()
   useEffect(() => {
@@ -29,7 +29,7 @@ const Navbar = () => {
     { name: "Promotions", href: "#promotions", highlight: true },
   ];
   return (<>
-    <nav className="bg-regal-500 text-white sticky top-0 z-110 shadow-lg">
+    <nav className="bg-regal-500 text-white sticky top-0 z-[100] shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative bg-regal-500">
         {/* Logo */}
         <Link href={'/'} className="flex items-center gap-3">
@@ -58,6 +58,7 @@ const Navbar = () => {
               </span>
             )}
           </button>
+
           <div className="hidden lg:block">
             <UserMenu />
 
@@ -74,9 +75,9 @@ const Navbar = () => {
 
       {/* --- MENU RIDEAU (MOBILE) --- */}
       <div
-        className={`absolute top-full left-0 w-full bg-regal-600 shadow-2xl transition-all duration-500 ease-in-out transform lg:hidden ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+        className={`absolute z-[95] top-full left-0 w-full bg-regal-600 shadow-2xl transition-all duration-500 ease-in-out transform lg:hidden ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
           }`}
-        style={{ zIndex: -1 }} // Se place sous la navbar principale
+      //  style={{ zIndex: -1 }} // Se place sous la navbar principale
       >
         <div className="px-8 py-10 flex flex-col gap-1">
           {navLinks.map((link, index) => (
@@ -120,12 +121,13 @@ const Navbar = () => {
     </nav>
 
     <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-    {isOpen && (
+    {/* {isOpen && (
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden transition-opacity duration-500"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] transition-opacity duration-500"
         onClick={() => setIsOpen(false)}
       />
-    )}
+    )} */}
+    
   </>
 
   );

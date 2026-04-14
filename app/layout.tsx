@@ -20,7 +20,7 @@ export default async function RootLayout({
   const items = await findCartItemsByUser(userId as string)
 
   return (
-    <html lang="fr" data-scroll-behavior="smooth">
+    <html lang="fr">
       <body
       >
         <ContextProvider initialCurrentUser={user as null}>

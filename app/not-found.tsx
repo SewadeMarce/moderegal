@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 export default function Page() {
   return (
-    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50">
+    <div className="flex items-center justify-center bg-gray-50">
       <div className="text-center">
         <h1 className="text-8xl font-bold text-regal-600 mb-4">404</h1>
         <h2 className="text-3xl font-semibold text-regal-700 mb-6">Page non trouvée</h2>

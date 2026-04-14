@@ -36,8 +36,8 @@ export default function FavoriteButton({
 
         });
       }} disabled={isPending}
-         aria-label={optimisticFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
-   className="p-2.5 bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:bg-white transition-all active:scale-90"
+      aria-label={optimisticFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
+      className="p-2.5 bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:bg-white transition-all active:scale-90"
     >
       <Heart
         size={24}
@@ -45,10 +45,6 @@ export default function FavoriteButton({
         color={optimisticFavorite ? "red" : "currentColor"}
         className={isPending ? "opacity-70" : "opacity-100"}
       />
-      <span className="text-sm font-medium">
-        {optimisticFavorite ? "Favori" : "Ajouter"}
-      </span>
-
     </button>
   );
 }

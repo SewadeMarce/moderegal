@@ -23,15 +23,15 @@ export default async function Page(
                     {/* Bouton retour */}
                     <BtnBack />
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                         {/* Section Images */}
-                        <GalerieImages product={product} />
+                        {/* <GalerieImages product={product} /> */}
 
                         {/* Section Informations */}
-                        <Infos
+                        {/* <Infos 
                             favorite={favorites}
                             product={product} />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/data';
-import DashboardSidebar from '@/components/dashboard/Sedebar';
+import DashboardSidebar from '@/components/dashboard/Sidebar';
 import MobileNav from '@/components/ui/dashboard/MobileNav';
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {

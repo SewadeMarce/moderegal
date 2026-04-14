@@ -1,4 +1,4 @@
-import { CategoriesType, Products } from "@/types";
+import { CategoriesType, Products, User } from "@/types";
 import pool from "../db";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
@@ -47,7 +47,7 @@ export async function getFeaturedProducts(): Promise<Products> {
       LEFT JOIN categories c ON p.category_id = c.id 
       WHERE p.is_new = true OR p.is_promo = true 
       ORDER BY p.created_at DESC 
-      LIMIT 4
+      LIMIT 8
     `);
     return result.rows;
   } catch (error) {
@@ -84,6 +84,17 @@ export async function getProductById(id: string) {
     console.error('Error fetching product:', error);
     throw error;
   }
+}
+export async function getProductByCategories(category_id: string): Promise<Products>  {
+  const result = await pool.query(`
+  SELECT p.*, c.name as category
+      FROM products p 
+      LEFT JOIN categories c ON p.category_id = c.id 
+      WHERE p.category_id = $1 
+      ORDER BY p.created_at DESC 
+      LIMIT 8`, [category_id])
+
+  return result.rows;
 }
 export async function getAllCategories(): Promise<CategoriesType> {
   const { rows } = await pool.query(
@@ -127,19 +138,19 @@ export async function getCartItems(userId: string) {
   }
 };
 
- export  async function findCartItemsByUser(user_id:string) {
-    const { rows } = await pool.query(
-      `SELECT ci.*, p.name, p.price, p.discount_price, p.discount_percentage, p.stock
+export async function findCartItemsByUser(user_id: string) {
+  const { rows } = await pool.query(
+    `SELECT ci.*, p.name, p.price, p.discount_price, p.discount_percentage, p.stock
        FROM cart_items ci
        JOIN products p ON p.id = ci.product_id
        WHERE ci.user_id = $1
        ORDER BY ci.created_at ASC`,
-      [user_id]
-    );
-    return rows;
-  }
+    [user_id]
+  );
+  return rows;
+}
 
-export async function getCurrentUser(): Promise<{ id: string; full_name: string; email: string; phone: string; created_at: Date } | null> {
+export async function getCurrentUser(): Promise<User> {
   const cookieStore = await cookies();
   const token = cookieStore.get('auth-token')?.value;
 
@@ -219,7 +230,7 @@ export async function add(user_id: string, product_id: string) {
   return rows[0] || null;
 }
 
-export async function getFavoritesByUser(user_id:string) {
+export async function getFavoritesByUser(user_id: string) {
   const { rows } = await pool.query(
     `SELECT f.id AS favorite_id, f.created_at,
              p.*, c.name as category
@@ -237,7 +248,7 @@ export async function getFavoritesByUser(user_id:string) {
 
 
 
-export async function getUserById(id:string) {
+export async function getUserById(id: string) {
   const { rows } = await pool.query(
     `SELECT id, full_name, email, phone, address, city, role, created_at
      FROM users

@@ -32,3 +32,7 @@ export type CategoriesType = Category[];
 
 export type ProductCart = { name: string; price: number; image_url?: string | null;size?: string; color?: string;  };
 export type CartItemType = { id: string; quantity: number; product_id: string;  } & ProductCart;
+
+
+
+export type User = { id: string; full_name: string; email: string; phone: string; created_at: Date;role:string } | null
