@@ -4,15 +4,15 @@
 import { useKKiaPay } from 'kkiapay-react';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Script from "next/script";
 import { verifyOrder } from "@/lib/actions";
 
 declare global {
     interface Window {
-        openKkiapayWidget: (opts: Record<string, any>) => void;
+        openKkiapayWidget: (opts: Record<string, string>) => void;
         addSuccessListener: (cb: (response: { transactionId: string }) => void) => void;
-        addFailedListener: (cb: (response: any) => void) => void;
+        addFailedListener: (cb: (response:{ transactionId: string }) => void) => void;
     }
 }
 
@@ -20,7 +20,7 @@ type Props = {
     amount: number;
     name: string;
     email: string;
-    phone?: string;
+    phone: string;
     userId: string;           // pour le partnerId — lie la tx à la commande
    city:string;
    address:string;
@@ -129,9 +129,9 @@ export default function KkiapayCheckout({
                 amount={amount}
                 name={name}
                 email={email}
-                phone={phone}
+                phone={phone as string}
                 userId={userId}
-                onSuccess={(txId) => router.push(`/`)}
+                onSuccess={() => router.push(`/`)}
                 onFailed={() => setError("Paiement échoué. Veuillez réessayer.")}
                  city={city}
                   address={address}

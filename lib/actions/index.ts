@@ -146,7 +146,7 @@ export async function createPaymentIntent(metadata: { userId: string; fullName: 
   }
 }
 
-export async function createOrderByStripe(data: { user_id: string; total_amount: number; shipping_fee: number; payment_method: string; address: string; phone: string; status: string, shipping_adress?: {} }) {
+export async function createOrderByStripe(data: { user_id: string; total_amount: number; shipping_fee: number; payment_method: string; address: string; phone: string; status: string, shipping_adress?: Record<string,string> }) {
   const client = await pool.connect();
 
   try {
@@ -252,11 +252,10 @@ export async function createOrder({ user_id, total_amount, shipping_fee, payment
 }
 
 
-export async function createOrderKkiapay({ user_id, total_amount, shipping_fee, payment_method, address, phone, items }: {
+export async function createOrderKkiapay({ user_id, total_amount, shipping_fee, address, phone, items }: {
   user_id: string;
   total_amount: number;
   shipping_fee: number;
-  payment_method: string;
   address: string;
   phone: string;
   items: CartItemType[];
@@ -401,7 +400,7 @@ export async function logoutUser() {
   redirect('/auth');
 }
 
-export async function verifyOrder(transactionId: string, shipping_adress?: {}) {
+export async function verifyOrder(transactionId: string, shipping_adress?: Record<string,string>) {
 
   const tx = await kkiapayClient.verify(transactionId);
   const client = await pool.connect();

@@ -5,6 +5,7 @@ import InputSearch from "@/components/ui/(app)/shop/input-search";
 import { getAllCategories } from "@/lib/data";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { PropsSearchParams } from "@/types";
 
 
 export const metadata: Metadata = {
@@ -12,18 +13,8 @@ export const metadata: Metadata = {
   description: "La boutique ModeRoyal contenant tout les articles",
 };
 
-type Props = {
-    searchParams: {
-        query?: string;
-        page?: string;
-        category?: string;
-        sizes?: string;
-        maxPrice?: string;
-        sort?: string;
-    }
-}
-export default async function Page(props: Props) {
-    const searchParams = await props.searchParams;
+
+export default async function Page({searchParams}: PropsSearchParams) {
   
     return (
         <div className="bg-gray-50 min-h-screen pt-8">

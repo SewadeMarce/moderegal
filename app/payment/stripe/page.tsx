@@ -1,7 +1,7 @@
 
 import StripePaymentElement from '@/components/payement/Elements';
 
-export default async function CheckoutPage({ searchParams }: { searchParams: { clientSecret?: string } }) {
+export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ clientSecret?: string }> }) {
 
   const { clientSecret } = await searchParams;
 

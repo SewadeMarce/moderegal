@@ -1,26 +1,28 @@
 import { getAllProducts, getCurrentUser, getUserFavoritesIds } from "@/lib/data";
 import ProductCard from "../product/Card";
+import { PropsSearchParams } from "@/types";
 
-export default async function GridProducts({ searchParams }:{ searchParams: { query?: string; category?: string } }) {
+export default async function GridProducts({ searchParams }: PropsSearchParams) {
+  const params = (await searchParams)
   const data = {
-    search : searchParams?.query || '',
-    category_id : searchParams.category || 'all',
-   
+    search: params.query || '',
+    category_id: params.category || 'all',
+
   }
-  
+
   const filteredProducts = await getAllProducts(data); // Récupère les produits filtrés selon les critères de l'URL
-    const user = await getCurrentUser()
-    const favoriteIds = user?.id
-      ? await getUserFavoritesIds(user.id)
-      : [];
+  const user = await getCurrentUser()
+  const favoriteIds = user?.id
+    ? await getUserFavoritesIds(user.id)
+    : [];
   return (
     <>
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} 
-            isInitiallyFavorite={favoriteIds.includes(product.id)}
-            product={product} />
+            <ProductCard key={product.id}
+              isInitiallyFavorite={favoriteIds.includes(product.id)}
+              product={product} />
           ))}
         </div>
       ) : (
@@ -30,6 +32,6 @@ export default async function GridProducts({ searchParams }:{ searchParams: { qu
           <p className="text-gray-600 mb-8">Essayez de modifier vos filtres</p>
         </div>
       )}
-      </>
+    </>
   )
 }

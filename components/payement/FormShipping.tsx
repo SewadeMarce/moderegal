@@ -1,8 +1,8 @@
 // app/checkout/page.tsx
 'use client';
 import {  useState, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { CreditCard, Smartphone, ArrowLeft, Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { CreditCard, Smartphone, Check } from 'lucide-react';
 import { useCart } from '@/context/cart';
 import {  createPaymentIntent } from '@/lib/actions';
 import { use } from '@/context';
@@ -12,7 +12,6 @@ export default function ShippingForm() {
 
 
     const router = useRouter();
-    const searchParams = useSearchParams()
     const [activeTab, setActiveTab] = useState<'stripe' | 'kkiapay'>('stripe');
     const { user } = use()
     const [pending, startTransition] = useTransition();

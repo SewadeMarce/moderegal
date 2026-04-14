@@ -1,7 +1,8 @@
 // app/checkout/page.tsx
 import KkiapayCheckout from "@/components/payement/Kkiapay";
+import { KkiapaySearchParams } from "@/types";
 
-export default async function CheckoutPage({searchParams}: { searchParams: { userId?: string, fullName?: string, email?: string, phone?: string , amount?: number, city?: string, address?: string} }) {
+export default async function CheckoutPage({searchParams}: KkiapaySearchParams) {
 
   const userId =( await searchParams).userId || "eddb_dfdf88tr87t87tr";
 const name = ( await searchParams).fullName || "John Doe";

@@ -107,7 +107,7 @@ export default function WavingFlag({
 
       {/* Légende (optionnel) */}
       <p className="mt-10 text-gray-500 text-sm font-medium tracking-wide italic">
-        Fier du Bénin, soufllé par l&#39;élégance
+        Fier du {countryName}, soufllé par l&#39;élégance
       </p>
     </div>
   )

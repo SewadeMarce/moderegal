@@ -166,6 +166,7 @@ export async function getCurrentUser(): Promise<User> {
 
     return result.rows[0] || null;
   } catch (error) {
+    console.error(error)
     return null;
   }
 }

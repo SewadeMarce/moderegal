@@ -4,7 +4,6 @@ import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { loginUser, registerUser } from '@/lib/actions';
-import Image from 'next/image';
 
 type AuthMode = 'login' | 'register';
 
@@ -32,7 +31,7 @@ export default function AuthForm() {
                 }
                 router.push('/');
             } catch (err) {
-
+                console.error(err)
                 setError('Email ou mot de passe incorrect');
 
             }
@@ -196,17 +195,6 @@ export default function AuthForm() {
                     <div className="relative flex justify-center text-sm">
                         <span className="bg-gray-50 px-4 text-gray-500">Ou continuer avec</span>
                     </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mt-6">
-                    <button className="flex items-center justify-center gap-3 border border-gray-200 hover:border-gray-300 py-4 rounded-2xl transition-all">
-                        <img width={5} height={5} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="Google" className="w-5 h-5" />
-                        <span className="font-medium">Google</span>
-                    </button>
-                    <button className="flex items-center justify-center gap-3 border border-gray-200 hover:border-gray-300 py-4 rounded-2xl transition-all">
-                        <span className="text-xl">f</span>
-                        <span className="font-medium">Facebook</span>
-                    </button>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ import SuccessContent from '@/components/payement/Success';
 import { Suspense } from 'react';
 import { createOrderByStripe } from '@/lib/actions';
 
-export default async function PaymentSuccessPage({searchParams}: {searchParams: { payment_intent: string,orderId: string }}) {
+export default async function PaymentSuccessPage({searchParams}: {searchParams: Promise<{ payment_intent: string,orderId: string }>}) {
   const { payment_intent } = await searchParams;
 
 

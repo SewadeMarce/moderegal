@@ -36,3 +36,26 @@ export type CartItemType = { id: string; quantity: number; product_id: string;  
 
 
 export type User = { id: string; full_name: string; email: string; phone: string; created_at: Date;role:string } | null
+
+export type PropsSearchParams = {
+    searchParams: Promise<{
+        query: string;
+        page: string;
+        category: string;
+        sizes: string;
+        maxPrice: string;
+        sort: string;
+    }>
+}
+
+export type KkiapaySearchParams ={
+   searchParams: Promise<{
+     userId?: string, 
+     fullName?: string, 
+     email?: string, 
+     phone?: string , 
+     amount?: number, 
+     city?: string, 
+     address?: string
+    }>
+     }

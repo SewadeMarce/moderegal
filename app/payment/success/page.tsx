@@ -2,7 +2,7 @@ import stripe from '@/lib/utils/stripe';
 import SuccessContent from '@/components/payement/Success';
 import { Suspense } from 'react';
 
-export default async function PaymentSuccessPage({searchParams}: {searchParams: { payment_intent: string,orderId: string }}) {
+export default async function PaymentSuccessPage({searchParams}: {searchParams: Promise<{ payment_intent: string,orderId: string }>}) {
   const { payment_intent } = await searchParams;
 
 

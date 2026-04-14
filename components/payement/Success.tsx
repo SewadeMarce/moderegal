@@ -2,7 +2,7 @@
 import { ArrowRight, CheckCircle, Package, Truck } from "lucide-react";
 import Link from "next/link";
 
-export default function SuccessContent({orderId,status}: {orderId: string,status:string}) {
+export default function SuccessContent({orderId}: {orderId: string,status:string}) {
  
 
   return (

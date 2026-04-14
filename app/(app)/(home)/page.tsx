@@ -1,50 +1,13 @@
-import Categories, { CategoryInfiniteScroll } from '@/components/(app)/Categories';
+import Categories from '@/components/(app)/Categories';
 import ProductHorizontalList from '@/components/(app)/ProductSection';
 import { CategorySkeleton } from '@/components/ui/(app)/categories-skeleton';
 import { getAllCategories, getCurrentUser, getFeaturedProducts, getProductByCategories, getUserFavoritesIds } from '@/lib/data';
 import { ArrowRight, Truck, ShieldCheck, Award } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
-const Categorie = [
-  {
-    id: 1,
-    name: "Hommes",
-    slug: "hommes",
-    image: "/images/img-10",
-    count: 124
-  },
-  {
-    id: 2,
-    name: "Femmes",
-    slug: "femmes",
-    image: "/images/img-01",
-    count: 98
-  },
-  {
-    id: 3,
-    name: "Enfants",
-    slug: "enfants",
-    image: "/images/img-10",
-    count: 67
-  },
-  {
-    id: 4,
-    name: "Chaussures",
-    slug: "chaussures",
-    image: "/images/img-20",
-    count: 45
-  },
-  {
-    id: 5,
-    name: "Accessoires",
-    slug: "accessoires",
-    image: "/images/img-23",
-    count: 82
-  },
-];
+
 export default async function Page() {
   const categories = await getAllCategories();
-  const featuredProducts = await getFeaturedProducts();
   const user = await getCurrentUser()
   const favoriteIds = user?.id
     ? await getUserFavoritesIds(user.id)

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AddBtn from '@/components/ui/(app)/btn-action';
 import FavoriteButton from '@/components/ui/btn-favorites';
+import Image from 'next/image';
 
 interface ProductCardProps {
   product: Product;
@@ -24,9 +25,11 @@ const ProductCard = ({ product ,isInitiallyFavorite}: ProductCardProps) => {
         <div className="relative overflow-hidden">
           {/* Image */}
           <div className="aspect-[4/5] bg-gray-100">
-            <img
+            <Image
               src={product.image_url}
               alt={product.name}
+              width={1500}
+              height={1500}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
           </div>
