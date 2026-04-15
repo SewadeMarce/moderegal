@@ -74,7 +74,6 @@ import {
   Package, 
   Heart, 
   User, 
-  MapPin, 
   LogOut, 
 } from 'lucide-react';
 import { logoutUser } from '@/lib/actions';
@@ -99,11 +98,6 @@ const navItems = [
     label: 'Mon profil', 
     href: '/dashboard/profile', 
     icon: User 
-  },
-  { 
-    label: 'Mes adresses', 
-    href: '/dashboard/addresses', 
-    icon: MapPin 
   },
 ];
 

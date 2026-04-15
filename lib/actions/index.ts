@@ -180,6 +180,7 @@ export async function createOrderByStripe(data: { user_id: string; total_amount:
     await pool.query('DELETE FROM cart_items WHERE user_id = $1', [data.user_id]);
 
     await client.query('COMMIT');
+    revalidatePath('/')
     return order;
   } catch (err) {
     await client.query('ROLLBACK');

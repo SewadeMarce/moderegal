@@ -31,7 +31,7 @@ export default function AuthForm() {
                 }
                 router.push('/');
             } catch (err) {
-                console.error(err)
+               console.error(err)
                 setError('Email ou mot de passe incorrect');
 
             }
@@ -186,17 +186,7 @@ export default function AuthForm() {
                 </p>
             </div>
 
-            {/* Option sociale */}
-            <div className="mt-10">
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-200"></div>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                        <span className="bg-gray-50 px-4 text-gray-500">Ou continuer avec</span>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
     );
