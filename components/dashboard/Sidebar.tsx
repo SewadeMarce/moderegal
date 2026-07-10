@@ -34,7 +34,7 @@
 //           {navItems.map((item) => {
 //             const isActive = pathname === item.href;
 //             const Icon = item.icon;
-            
+
 //             return (
 //               <Link
 //                 key={item.href}
@@ -69,35 +69,35 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  Home, 
-  Package, 
-  Heart, 
-  User, 
-  LogOut, 
+import {
+  Home,
+  Package,
+  Heart,
+  User,
+  LogOut,
 } from 'lucide-react';
 import { logoutUser } from '@/lib/actions';
 
 const navItems = [
-  { 
-    label: 'Tableau de bord', 
-    href: '/dashboard', 
-    icon: Home 
+  {
+    label: 'Tableau de bord',
+    href: '/dashboard',
+    icon: Home
   },
-  { 
-    label: 'Mes commandes', 
-    href: '/dashboard/orders', 
-    icon: Package 
+  {
+    label: 'Mes commandes',
+    href: '/dashboard/orders',
+    icon: Package
   },
-  { 
-    label: 'Mes favoris', 
-    href: '/dashboard/favorites', 
-    icon: Heart 
+  {
+    label: 'Mes favoris',
+    href: '/dashboard/favorites',
+    icon: Heart
   },
-  { 
-    label: 'Mon profil', 
-    href: '/dashboard/profile', 
-    icon: User 
+  {
+    label: 'Mon profil',
+    href: '/dashboard/profile',
+    icon: User
   },
 ];
 
@@ -126,7 +126,7 @@ export default function DashboardSidebar({ user }: SidebarProps) {
             M
           </div>
           <div>
-            <div className="font-bold text-3xl tracking-tighter">ModeRegal</div>
+            <Link href='/' className="font-bold text-3xl tracking-tighter">ModeRegal</Link>
             <div className="text-xs text-white/60 -mt-1">Espace Client</div>
           </div>
         </div>
@@ -158,11 +158,10 @@ export default function DashboardSidebar({ user }: SidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all text-[15px] ${
-                  isActive 
-                    ? 'bg-white text-regal-700 font-semibold shadow-sm' 
-                    : 'hover:bg-white/10 text-white/90'
-                }`}
+                className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all text-[15px] ${isActive
+                  ? 'bg-white text-regal-700 font-semibold shadow-sm'
+                  : 'hover:bg-white/10 text-white/90'
+                  }`}
               >
                 <Icon size={22} />
                 <span>{item.label}</span>
@@ -174,7 +173,7 @@ export default function DashboardSidebar({ user }: SidebarProps) {
 
       {/* Pied de sidebar */}
       <div className="p-6 border-t border-white/10 mt-auto">
-        <button 
+        <button
           onClick={handleLogout}
           className="w-full flex items-center gap-4 px-6 py-4 text-white/80 hover:text-white hover:bg-white/10 rounded-2xl transition-all"
         >

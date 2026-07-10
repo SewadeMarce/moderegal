@@ -8,7 +8,7 @@ export default function MobileNav({ sidebar }: { sidebar: React.ReactNode }) {
   return (
     <>
       {/* Bouton pour ouvrir sur mobile */}
-      <header className="lg:hidden bg-white border-b px-6 py-4 flex items-center justify-between sticky top-0 z-30">
+      <header className="lg:hidden bg-white border-b px-6 py-4 flex items-center justify-between sticky top-0 z-100">
         <button onClick={() => setIsOpen(true)} className="text-regal-700">
           <Menu size={24} />
         </button>
@@ -16,7 +16,7 @@ export default function MobileNav({ sidebar }: { sidebar: React.ReactNode }) {
       </header>
 
       {/* Overlay et Sidebar mobile */}
-      <div className={`fixed inset-0 z-50 lg:hidden ${isOpen ? "visible" : "invisible"}`}>
+      <div className={`fixed inset-0 z-150 lg:hidden ${isOpen ? "visible" : "invisible"}`}>
         <div 
           className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
           onClick={() => setIsOpen(false)}

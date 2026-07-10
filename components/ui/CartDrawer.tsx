@@ -16,15 +16,15 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
   return (
     <>
-      {/* {isOpen && (
+       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-1000"
           onClick={onClose}
         />
-      )} */}
+      )} 
 
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[200] transform transition-transform duration-300 flex flex-col
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white text-black shadow-2xl z-1000 transform transition-transform duration-300 flex flex-col
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Header */}

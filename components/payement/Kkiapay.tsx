@@ -12,7 +12,7 @@ declare global {
     interface Window {
         openKkiapayWidget: (opts: Record<string, string>) => void;
         addSuccessListener: (cb: (response: { transactionId: string }) => void) => void;
-        addFailedListener: (cb: (response:{ transactionId: string }) => void) => void;
+        addFailedListener: (cb: (response: { transactionId: string }) => void) => void;
     }
 }
 
@@ -22,14 +22,14 @@ type Props = {
     email: string;
     phone: string;
     userId: string;           // pour le partnerId — lie la tx à la commande
-   city:string;
-   address:string;
+    city: string;
+    address: string;
     onSuccess?: (txId: string) => void;
     onFailed?: () => void;
 };
 
-function KkiapayWidget({
- city,  address, amount, name, email, phone, userId, onSuccess, onFailed,
+export function KkiapayWidget({
+    city, address, amount, name, email, phone, userId, onSuccess, onFailed,
 }: Props) {
     const listenersAdded = useRef(false);
     const shipping_adress = {
@@ -38,7 +38,7 @@ function KkiapayWidget({
         address,
         city,
     };
-      const { openKkiapayWidget } = useKKiaPay();
+    const { openKkiapayWidget } = useKKiaPay();
 
 
     function openWidget() {
@@ -77,10 +77,7 @@ function KkiapayWidget({
 
     return (
         <>
-            <Script
-                src="https://cdn.kkiapay.me/k.js"
-                onLoad={setupListeners}
-            />
+         
             <button
                 onClick={openWidget}
                 className="text-center py-8">
@@ -110,9 +107,9 @@ function KkiapayWidget({
 
 
 export default function KkiapayCheckout({
-   city,  address,  amount, name, email, userId, phone
+    city, address, amount, name, email, userId, phone
 }: {
-   city:string,  address:string,  amount: number; name: string; email: string; userId: string; phone?: string;
+    city: string, address: string, amount: number; name: string; email: string; userId: string; phone?: string;
 }) {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
@@ -133,8 +130,8 @@ export default function KkiapayCheckout({
                 userId={userId}
                 onSuccess={() => router.push(`/`)}
                 onFailed={() => setError("Paiement échoué. Veuillez réessayer.")}
-                 city={city}
-                  address={address}
+                city={city}
+                address={address}
             />
         </div>
     );

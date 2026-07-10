@@ -29,7 +29,7 @@ const Navbar = () => {
     { name: "Promotions", href: "#promotions", highlight: true },
   ];
   return (<>
-    <nav className="bg-regal-500 text-white sticky top-0 z-[100] shadow-lg">
+    <nav className="bg-regal-500 text-white sticky top-0 z-500 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative bg-regal-500">
         {/* Logo */}
         <Link href={'/'} className="flex items-center gap-3">

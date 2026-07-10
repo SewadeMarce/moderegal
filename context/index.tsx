@@ -1,9 +1,8 @@
 'use client';
-import { createContext, useContext, useState, ReactNode, } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, } from 'react';
 
-type UserType = { id: string, full_name: string, email: string, phone: string, created_at: string, updated_at: string } | null;
+export type UserType = { id: string, full_name: string, email: string, phone: string, city: string, created_at: string, updated_at: string, address: string } | null;
 type ContextType = {
-  setUser: (user: UserType ) => void;
   user: UserType;
   showFilters: boolean;
   setShowFilters: (show: boolean) => void;
@@ -13,11 +12,11 @@ const Context = createContext<ContextType | undefined>(undefined);
 
 export const ContextProvider = ({ initialCurrentUser, children }: { initialCurrentUser: null; children: ReactNode }) => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [user, setUser] = useState<UserType>(initialCurrentUser);
+  useEffect(() => {
 
+  }, [])
   const value: ContextType = {
-   setUser,
-    user,
+    user: initialCurrentUser,
     showFilters,
     setShowFilters,
   };

@@ -8,7 +8,7 @@ export default function Layout({
     Readonly<{ children: React.ReactNode; }>
 ) {
     return (
-        <div className="min-h-screen bg-gray-50 py-12">
+        <div className="min-h-screen bg-gray-50 py-12 text-black">
             <div className="mx-auto px-6">
                 <BtnBack />
                 <Step />

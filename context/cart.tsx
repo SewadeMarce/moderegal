@@ -8,7 +8,7 @@ import {
   useTransition,
 } from "react";
 // Type pour l'action du reducer
-type CartAction = 
+type CartAction =
   | { type: "add"; payload: { product_id: string; product: ProductCart; quantity: number } }
   | { type: "remove"; payload: { id: string } }
   | { type: "update"; payload: { id: string; quantity: number } };
@@ -20,7 +20,7 @@ interface CartContextType {
   subtotal: number;
   shipping: number;
   isPending: boolean;
-  add: (product_id: string, product: ProductCart,quantity:number) => void;
+  add: (product_id: string, product: ProductCart, quantity: number) => void;
   remove: (cartItemId: string) => void;
   update: (cartItemId: string, quantity: number) => void;
 };
@@ -37,11 +37,11 @@ export function CartProvider({
   userId: string;
 }) {
   const [isPending, startTransition] = useTransition();
-  
+
   // useOptimistic : état "fantôme" mis à jour immédiatement
   const [optimisticItems, dispatch] = useOptimistic(
     initialItems,
-    (state: CartItemType[], action:CartAction): CartItemType[] => {
+    (state: CartItemType[], action: CartAction): CartItemType[] => {
       switch (action.type) {
         case "add": {
           const existing = state.find(i => i.product_id === action.payload.product_id);
@@ -52,7 +52,7 @@ export function CartProvider({
                 : i
             );
           }
-         return [...state, {
+          return [...state, {
             id: "optimistic-" + Date.now(),
             product_id: action.payload.product_id,
             quantity: action.payload.quantity,
@@ -74,9 +74,9 @@ export function CartProvider({
       }
     }
   );
- 
 
- function add(product_id: string, product: ProductCart, quantity: number) {
+
+  function add(product_id: string, product: ProductCart, quantity: number) {
     startTransition(async () => {
       // Correction ici : envoyer la quantité
       dispatch({ type: "add", payload: { product_id, product, quantity } });
@@ -99,16 +99,14 @@ export function CartProvider({
       await updateCartItemQuantity(cartItemId, quantity);
     });
   }
- const count = optimisticItems.reduce((s, i) => s + i.quantity, 0);
-  const subtotal = optimisticItems.reduce(
-    (s, i) => s + Number(i.price) * i.quantity, 0
-  );
+  const count = optimisticItems.reduce((s, i) => s + i.quantity, 0);
+  const subtotal = optimisticItems.reduce((s, i) => s + Number(i.price) * i.quantity, 0 );
   const shipping = subtotal > 100000 || subtotal === 0 ? 0 : 1500; // Livraison gratuite au-dessus de 10 000 FCFA
   const total = subtotal + shipping;
-    console.log({subtotal,shipping,total});
+  console.log({ subtotal, shipping, total });
 
   return (
-    <CartContext.Provider value={{ items: optimisticItems, count, total,subtotal, shipping, isPending, add, remove, update }}>
+    <CartContext.Provider value={{ items: optimisticItems, count, total, subtotal, shipping, isPending, add, remove, update }}>
       {children}
     </CartContext.Provider>
   );

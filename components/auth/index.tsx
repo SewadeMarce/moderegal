@@ -82,7 +82,7 @@ export default function AuthForm() {
                                 value={formData.fullName}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
+                                className="w-full pl-12 pr-4 py-4 text-black border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
                                 placeholder="Jean Koffi"
                             />
                         </div>
@@ -99,7 +99,7 @@ export default function AuthForm() {
                             value={formData.email}
                             onChange={handleInputChange}
                             required
-                            className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
+                            className="w-full pl-12 pr-4 py-4 text-black border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
                             placeholder="votre@email.com"
                         />
                     </div>
@@ -115,7 +115,7 @@ export default function AuthForm() {
                             value={formData.password}
                             onChange={handleInputChange}
                             required
-                            className="w-full pl-12 pr-12 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
+                            className="w-full pl-12 pr-12 py-4 text-black border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
                             placeholder="••••••••"
                         />
                         <button
@@ -139,7 +139,7 @@ export default function AuthForm() {
                                 value={formData.confirmPassword}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
+                                className="w-full pl-12 pr-4 py-4 text-black border border-gray-200 rounded-2xl focus:outline-none focus:border-regal-500"
                                 placeholder="••••••••"
                             />
                         </div>

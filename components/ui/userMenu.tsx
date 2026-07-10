@@ -8,16 +8,13 @@ import { logoutUser } from '@/lib/actions';
 import { use } from '@/context';
 
 export default function UserMenu() {
-  const { user, setUser } = use();
+  const { user,  } = use();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-
-
 
   const handleLogout = async () => {
     try {
       await logoutUser();
-      setUser(null);
       router.push('/auth');
     } catch (error) {
       console.error("Erreur lors de la déconnexion", error);

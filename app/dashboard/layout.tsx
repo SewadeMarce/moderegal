@@ -11,17 +11,17 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   if (!user) {
     redirect('/auth');
   }
-const sidebarContent = <DashboardSidebar user={user} />
+  const sidebarContent = <DashboardSidebar user={user} />
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-{/* Sidebar Desktop : Visible uniquement sur grand écran */}
-      <div className="hidden lg:block w-72 h-screen lg:fixed top-0 z-30">
+    <div className=" bg-gray-50 flex text-black">
+      {/* Sidebar Desktop : Visible uniquement sur grand écran */}
+      <div className="hidden lg:block w-72 h-screen lg:fixed top-0 z-100">
         {sidebarContent}
-      </div>      
+      </div>
       <div className="flex-1">
-     {/* Navigation Mobile : Gère l'affichage de la sidebar sur petit écran */}
+        {/* Navigation Mobile : Gère l'affichage de la sidebar sur petit écran */}
         <MobileNav sidebar={sidebarContent} />
-        <main className="p-8 lg:ml-72">
+        <main className="p-8 lg:ml-72 ">
           {children}
         </main>
       </div>

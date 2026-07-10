@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Resume() {
   const { items: cart, subtotal, shipping, total } = useCart();
   return (
-    <div className="">
+    <div className="text-black">
       <div className="bg-white rounded-3xl p-8 sticky top-8">
         <h3 className="font-semibold text-xl mb-6">Résumé de la commande</h3>
 
