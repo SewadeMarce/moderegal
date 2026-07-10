@@ -29,7 +29,7 @@ export default function AuthForm() {
                 } else {
                     await loginUser(formData);
                 }
-                router.push('/');
+                router.push('/dashboard');
             } catch (err) {
                console.error(err)
                 setError('Email ou mot de passe incorrect');
